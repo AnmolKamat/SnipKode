@@ -6,10 +6,13 @@ import { Home, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
+import languages from "react-syntax-highlighter/src/languages/hljs/supported-languages";
+
 type Props = {};
 
 const New = (props: Props) => {
   const [code, setCode] = useState("");
+  const [language, setLanguage] = useState("javascript");
   const [key, setKey] = useState("");
   const router = useRouter();
   const [fieldError, setFieldError] = useState({ key: false, code: false });
@@ -57,7 +60,7 @@ const New = (props: Props) => {
       setFieldError(error);
       return;
     }
-    AddCodeMutation({ variables: { key: key.toLowerCase(), code } });
+    AddCodeMutation({ variables: { key: key.toLowerCase(), code, language } });
   };
   return (
     <div className=" items-center h-screen relative">
@@ -74,16 +77,31 @@ const New = (props: Props) => {
       </div>
       <div className="mx-auto w-fit flex flex-col gap-4 shadow-2xl shadow-slate-950 border border-secondary mt-16 p-3 h-fit rounded-lg">
         <div className="flex w-full justify-between">
-          <div className=" flex flex-col gap-2 ">
-            <label htmlFor="">Key</label>
-            <input
-              placeholder="enter the key"
-              className={`w-72 bg-bg outline-none border hover:brightness-150 px-2 py-3 focus:brightness-150 rounded-lg shadow-2xl shadow-slate-950 ${
-                fieldError.key ? "border-red-600" : "border-primary "
-              }`}
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-            />
+          <div className="flex gap-4">
+            <div className=" flex flex-col gap-2 ">
+              <label htmlFor="">Key</label>
+              <input
+                placeholder="enter the key"
+                className={`w-72 bg-bg outline-none border hover:brightness-150 px-2 py-3 focus:brightness-150 rounded-lg shadow-2xl shadow-slate-950 ${
+                  fieldError.key ? "border-red-600" : "border-primary "
+                }`}
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+              />
+            </div>
+            <div className=" flex flex-col gap-2 ">
+              <label htmlFor="">Language</label>
+              <select
+                className="w-72 bg-bg outline-none border hover:brightness-150 px-2 py-3 focus:brightness-150 rounded-lg shadow-2xl shadow-slate-950 border-primary"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option>Select language</option>
+                {languages.map((lang: string, index: number) => (
+                  <option key={index}>{lang}</option>
+                ))}
+              </select>
+            </div>
           </div>
           <button
             className=" w-24 py-3 bg-primary/40 border border-primary flex justify-around h-fit rounded-lg shadow-2xl shadow-slate-950"
@@ -93,6 +111,13 @@ const New = (props: Props) => {
           </button>
         </div>
         <label htmlFor="">Code</label>
+        {/* <SyntaxHighlighter
+          language={language}
+          style={solarizedDark}
+          showLineNumbers
+        >
+          console.log("hello world")
+        </SyntaxHighlighter> */}
         <textarea
           className={`border border-primary w-[60vw] h-[60vh] block outline-none p-2 rounded-lg   bg-bg shadow-2xl shadow-slate-950 ${
             fieldError.code ? "border-red-600" : "border-primary "

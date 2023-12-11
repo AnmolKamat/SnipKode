@@ -14,12 +14,15 @@ const resolvers = {
     },
   },
   Mutation: {
-    addCode: async (_: any, { key, code }: { key: string; code: string }) => {
+    addCode: async (
+      _: any,
+      { key, code, language }: { key: string; code: string; language: string }
+    ) => {
       try {
         const duplicates = await codeModel.find({ key: key });
         if (duplicates.length > 0) return "Key Already exists";
         else {
-          const newCode = new codeModel({ key, code });
+          const newCode = new codeModel({ key, code, language });
           await newCode.save();
           return "added the Code";
         }

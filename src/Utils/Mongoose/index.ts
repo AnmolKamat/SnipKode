@@ -11,7 +11,11 @@ const codeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  language: {
+    type: String,
+    required: true,
+  },
 });
 
 export const codeModel =
-  mongoose.models.codes || mongoose.model("codes", codeSchema);
+  mongoose.models.code || mongoose.model("code", codeSchema);

@@ -5,6 +5,9 @@ import { useQuery } from "@apollo/client";
 import { Copy, Home, Pen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { solarizedDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 type Props = {
   params: {
@@ -17,7 +20,6 @@ const Code = ({ params }: Props) => {
   const { data, loading } = useQuery(queries.GET_CODE, {
     variables: { key: key.toLowerCase() },
   });
-
   const [showAlert, setShowAlert] = useState<string | null>(null);
   const handleLinkCopy = () => {
     window.navigator.clipboard.writeText(
@@ -58,9 +60,12 @@ const Code = ({ params }: Props) => {
           </button>
         </div>
       </div>
-      <div className="w-[60vw] border border-secondary rounded-lg shadow-2xl shadow-slate-950 h-[60vh] mx-auto mt-24 p-2">
+      <div className="w-[60vw] border border-secondary rounded-lg shadow-2xl shadow-slate-950 h-[60vh] mx-auto mt-24 p-2 relative">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-thin">Key : {key}</h1>
+          <h1 className="text-2xl font-thin">
+            Key : {key}{" "}
+            <span className="text-lg">({data && data.getCode.language})</span>
+          </h1>
           <div className="flex gap-4">
             <button
               className="bg-primary/60 border border-primary p-2 flex rounded-lg w-36 justify-between"
@@ -76,9 +81,25 @@ const Code = ({ params }: Props) => {
             </button>
           </div>
         </div>
-        <div className="border border-secondary rounded-lg shadow-2xl shadow-slate-950 h-[53vh] mt-4 p-2 overflow-y-scroll">
-          {data && data.getCode.code}
-        </div>
+        {loading ? (
+          <div className="w-full h-[80%] grid">
+            <ClipLoader color="#00ff7b" className=" place-self-center" />
+          </div>
+        ) : (
+          <>
+            {data && (
+              <SyntaxHighlighter
+                className="border border-secondary rounded-lg shadow-2xl shadow-slate-950 h-[85%] mt-4 p-2 overflow-y-scroll"
+                language={data.getCode.langauge}
+                style={solarizedDark}
+                showLineNumbers
+                wrapLongLines
+              >
+                {data && data.getCode.code}
+              </SyntaxHighlighter>
+            )}
+          </>
+        )}
       </div>
       {showAlert && (
         <Alert onTime={() => setShowAlert(null)}>{showAlert}</Alert>
