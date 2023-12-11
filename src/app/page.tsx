@@ -15,14 +15,14 @@ const App = (props: Props) => {
   const [key, setKey] = useState("");
   return (
     <div className="flex items-center h-screen relative">
-      <div className=" flex justify-around w-full items-center">
+      <div className=" flex justify-around w-fit mx-auto items-center">
         <div>
           <h1 className="font-thin text-6xl  my-6 text-center">
             Snip <span className="text-primary">Code</span>
           </h1>
           <div className="backdrop-blur-lg h-fit border border-white rounded-lg flex flex-col p-8 items-center gap-6 shadow-2xl shadow-slate-950">
             <h1 className=" font-bold text-2xl">Welcome User</h1>
-            <div className="flex gap-6">
+            <div className="flex gap-6 flex-col xl:flex-row">
               <button
                 className=" bg-primary/40 backdrop-blur-lg text-white w-64 px-4 py-2 rounded-md border-2 border-primary text-lg font-bold"
                 onClick={() => setShowModal(true)}
@@ -44,6 +44,7 @@ const App = (props: Props) => {
             height={600}
             width={600}
             alt="Illustration Home"
+            className="hidden xl:block"
           />
         </div>
       </div>

@@ -64,7 +64,7 @@ const New = (props: Props) => {
   };
   return (
     <div className=" items-center h-screen relative">
-      <div className="flex gap-4 items-center w-[60vw] mx-auto">
+      <div className="flex gap-4 items-center xl:w-[60vw] w-[95vw] mx-auto">
         <button
           className="p-2 bg-primary/60 border border-primary w-fit  h-fit rounded-full"
           onClick={() => router.back()}
@@ -75,9 +75,9 @@ const New = (props: Props) => {
           Create New <span className="text-primary">Snip Code</span>
         </h1>
       </div>
-      <div className="mx-auto w-fit flex flex-col gap-4 shadow-2xl shadow-slate-950 border border-secondary mt-16 p-3 h-fit rounded-lg">
+      <div className="mx-auto xl:w-[60vw] w-[95vw] flex flex-col gap-4 shadow-2xl shadow-slate-950 border border-secondary mt-16 p-3 h-fit rounded-lg">
         <div className="flex w-full justify-between">
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-col xl:flex-row">
             <div className=" flex flex-col gap-2 ">
               <label htmlFor="">Key</label>
               <input
@@ -104,7 +104,7 @@ const New = (props: Props) => {
             </div>
           </div>
           <button
-            className=" w-24 py-3 bg-primary/40 border border-primary flex justify-around h-fit rounded-lg shadow-2xl shadow-slate-950"
+            className=" w-24 py-3 bg-primary/40 border  border-primary  justify-around h-fit rounded-lg shadow-2xl shadow-slate-950 hidden xl:flex"
             onClick={handleSave}
           >
             Save <Save />
@@ -119,13 +119,19 @@ const New = (props: Props) => {
           console.log("hello world")
         </SyntaxHighlighter> */}
         <textarea
-          className={`border border-primary w-[60vw] h-[60vh] block outline-none p-2 rounded-lg   bg-bg shadow-2xl shadow-slate-950 ${
+          className={`border border-primary block outline-none p-2 rounded-lg min-h-[40vh]  bg-bg shadow-2xl shadow-slate-950 ${
             fieldError.code ? "border-red-600" : "border-primary "
           }`}
           placeholder="Enter the code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
+        <button
+          className=" w-24 py-3 bg-primary/40 border border-primary flex justify-around h-fit rounded-lg shadow-2xl shadow-slate-950  xl:hidden"
+          onClick={handleSave}
+        >
+          Save <Save />
+        </button>
       </div>
       {modalData && <Modal close={() => setModalData(null)}>{modalData}</Modal>}
     </div>
