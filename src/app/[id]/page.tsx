@@ -39,6 +39,12 @@ const Code = ({ params }: Props) => {
       </Modal>
     );
   }
+  const handleRawCopy = () => {
+    window.navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_APP_URL!}/api/raw?key=${key}`
+    );
+    setShowAlert("Raw Link Copied");
+  };
   return (
     <div>
       <div className="w-[60vw] mx-auto flex justify-between pt-4 items-center">
@@ -78,6 +84,12 @@ const Code = ({ params }: Props) => {
               onClick={handleLinkCopy}
             >
               Copy Link <Copy />
+            </button>
+            <button
+              className="bg-primary/60 border border-primary p-2 flex rounded-lg w-36 justify-between"
+              onClick={handleRawCopy}
+            >
+              Raw link <Copy />
             </button>
           </div>
         </div>
